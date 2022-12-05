@@ -3,19 +3,20 @@ import sqlite3
 from PyQt5 import uic
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
 from PyQt5.QtWidgets import QMainWindow, QApplication
+from main1 import Ui_MainWindow
+from addEditCoffeeForm import Ui_MainWindow_1
+import data
 
-
-con = sqlite3.connect('coffee.sqlite')  # Устанавливаем соединение с базой данных
+con = sqlite3.connect("data/coffee.sqlite")  # Устанавливаем соединение с базой данных
 cur = con.cursor()
 
 
-class CoffeeBase(QMainWindow):
+class CoffeeBase(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
-
+        self.setupUi(self)
         db = QSqlDatabase.addDatabase('QSQLITE')
-        db.setDatabaseName('coffee.sqlite')
+        db.setDatabaseName('data/coffee.sqlite')
         db.open()
         self.pushButton.clicked.connect(self.add_edit)
         model = QSqlTableModel(self, db)
@@ -29,10 +30,10 @@ class CoffeeBase(QMainWindow):
         self.close()
 
 
-class AddEdit(QMainWindow):
+class AddEdit(QMainWindow, Ui_MainWindow_1):
     def __init__(self):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.pushButton.clicked.connect(self.edit)
 
     def edit(self):
